@@ -1,0 +1,18 @@
+.inp{
+    width: 330px;
+    height: 43px;
+    border: 0;
+    padding: 0; 
+    background: #C4C4C4;
+}
+
+.log_in{
+    margin: 230px auto 40px;
+    border-spacing: 10px;
+    
+    text-decoration: none;
+    color: #2C2626;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+}

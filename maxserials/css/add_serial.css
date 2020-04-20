@@ -1,0 +1,49 @@
+.inp{
+    width: 330px;
+    height: 43px;
+    border: 0;
+    padding: 0; 
+    background: #C4C4C4;
+}
+
+table{
+    margin: 50px 40px 40px;
+    border-spacing: 10px;
+    
+    text-decoration: none;
+    color: #2C2626;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.b1{
+    float: left;
+    display: block;
+}
+
+.b2{
+    float: right;
+    display: block;
+}
+
+.aa{
+    width: 288px; height: 61px;
+    background: #1D9228;
+    margin: 0 auto 50px;
+    
+    border-radius: 10px;
+    background: #1D9228;
+}
+.aa a{
+    display: block;
+    height: 100%;
+    padding: 4% 0;
+    text-align: center;
+    
+    text-decoration: none;
+    color: #2C2626;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 25px;
+    line-height: 1.5;
+}

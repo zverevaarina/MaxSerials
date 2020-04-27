@@ -1,5 +1,5 @@
 <?php 
-require "db.php"; 
+require_once "db.php"; 
 function GetPersonalInf(){
 	$id = $_SESSION['logged_user']->id;
 	$ans = "";
@@ -8,12 +8,10 @@ function GetPersonalInf(){
 		$name=$book->name;
 		$fact = $book->facts;
 		$photo = $book->photo;
-		$email = $book->email;
-		$ans = "<div><p><span>Логин:</span> $name</p>
-		<p><textarea>О себе: $facts</textarea></p>
-		<p><span>Email:</span> $email</p></div>";
-		return $ans; 
+		$ans = "<img src='uploads/$photo' width='300' height='300'></td><tr><td>Логин: $name</td></tr>
+		<tr><td>О себе: $fact</td></tr>";
 	}
+	return $ans; 
 }
 ?>
 

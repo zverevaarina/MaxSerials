@@ -1,0 +1,9 @@
+body { padding-top: 5rem; }
+.starter-template { padding: 3rem 1.5rem; }
+#logout{ display:none; }
+#account{ display:none;}
+
+.get-note {display:inline-block;}
+.marg{margin-top: 10px;}
+.marg-left{margin-left: 10%;}
+.progress-bar{color: #000000;}

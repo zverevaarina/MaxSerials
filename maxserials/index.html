@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>МаксимальноСериально</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css"/>
+    </head>
+    
+    <body>
+        
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            
+            <a class="nav-item nav-link" href="" id='home'><img src="icons/max.png" alt="МаксимальноСериально" width="216.52" heigh="84"></a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav justify-content-center">
+                    
+                    <form id='search-serial-form' class="form-inline " action='#' method='post'>
+                        <div class='input-group pull-left w-30-pct'>
+                            <input type='text' name='keywords' class='form-control mr-sm-2' id='serial-search-keywords' placeholder='Поиск' autocomplete="off"/>
+                            <button class="btn btn-dark" type='submit' type='button'>Найти</button>
+                        </div>
+                    </form>
+                    
+                    <a class="nav-item nav-link" href="pages/list_serials.html" id='list_serials'>Сериалы</a>
+                    <a class="nav-item nav-link" href="#" id='account'>Профиль</a>
+                    <a class="nav-item nav-link" href="#" id='logout'>Выйти</a>
+                    <a class="nav-item nav-link" href="#" id='login'>Войти</a>
+                    <a class="nav-item nav-link" href="#" id='sign_up'>Зарегистрироваться</a>
+                </div>
+            </div>
+        </nav>
+        
+        <main role="main" class="container starter-template">
+            <div class="row">
+                <div class="col">
+                    <div id="response"></div>
+                    <div id="content"></div>
+                </div>
+            </div>
+        </main>
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="../app/assets/js/bootbox.min.js"></script>
+        <script src="js/list_serials.js"></script>
+        <script src="js/navbar.js"></script>
+        <script src="js/user.js"></script>
+        <script src="js/home_page.js"></script>
+        
+    </body>
+</html>

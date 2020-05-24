@@ -82,7 +82,7 @@ class Serial{
         $ans = $this->jsonEncodeCyr($str_);
         return $ans;    
     }
-        public function search($key){
+    public function search($key){
         $books = R::find('serial', 'name LIKE ?', ["%$key%"]);
         if ($books)
             $this->ans_ex = true;
@@ -94,6 +94,70 @@ class Serial{
                 'id'          =>   $bean->id,
                 'name'        =>  "$bean->name",
                 'year'        =>   $bean->year,
+                'description' =>  "$bean->description",
+                'fun_facts'   =>  "$bean->fun_facts",
+                'country'     =>  "$bean->country",
+                'photo'       =>  "$bean->photo",
+                'genre'       =>  "$bean->genre",
+                'rating'      =>  "$bean->rating"
+                
+            );
+            array_push($serials_arr,  $serials_item);
+        }
+        $str_ = json_encode($serials_arr);
+        $ans = $this->jsonEncodeCyr($str_);
+        return $ans;
+    }
+    public function create(){
+        $serial = R::dispense('serial');
+        $serial->name = $this->name;
+        $serial->year = $this->year;
+        $serial->description =  $this->description;
+        $serial->fun_facts = $this->fun_facts;
+        $serial->country = $this->country;
+        $serial->photo = $this->photo;
+        $serial->genre = $this->genre;
+        $serial->rating = 0;
+        $ans = R::store($serial);
+    }
+    public function update($id){
+        $bean = R::load('serial', $id);
+        if ($bean->id!=0){
+            $bean->name = $this->name;
+            $bean->year = $this->year;
+            $bean->description =  $this->description;
+            $bean->fun_facts = $this->fun_facts;
+            $bean->country = $this->country;
+            if (!is_null($this->photo))
+                $bean->photo =$this->photo;
+            $bean->genre = $this->genre;
+            $ans = R::store($bean);
+            return true;
+        }
+        else 
+            return false;
+    }
+    public function delete($id){
+        $bean = R::load('serial', $id);
+        if ($bean->id!=0){
+            R::trash($bean);
+            return true;
+        }
+        else 
+            return false;
+    }
+    public function getTop3Serial(){
+        $books = R::findAll('serial', 'ORDER BY rating DESC LIMIT 3');
+        if ($books)
+            $this->ans_ex = true;
+        else
+            $this->ans_ex = false;
+        $serials_arr = array();
+        foreach ($books as $bean) {
+            $serials_item = array(
+                'id'          =>   $bean->id,
+                'name'        =>  "$bean->name",
+                'year'        =>  "$bean->year",
                 'description' =>  "$bean->description",
                 'fun_facts'   =>  "$bean->fun_facts",
                 'country'     =>  "$bean->country",

@@ -100,6 +100,214 @@ class User{
         else
             return false;
     }
+    public function delete($id){
+        $bean = R::load('user', $id);
+        if ($bean->id!=0){
+            R::trash($bean);
+            return true;
+        }
+        else 
+            return false;
+    }
+    function getNoteSerial($_si , $ok){
+        $arr_note = UserEpisode::readAll($this->id);
+        $episode_arr = array();
+        $episode_arr += ['note'=>$ok];
+        for ($row = 0; $row <count($arr_note); $row++) 
+            {
+                $bean = R::findOne('episode', 'id = ?', [$arr_note[$row]['episode_id']]);
+                if ($bean->serial_id === $_si){
+                    $episode_item = array(
+                    'id'          =>   $arr_note[$row]['id'],
+                    'name'        =>  "$bean->name",
+                    'date'        =>  "$bean->date",
+                    'season_num'  =>   $bean->season_num,
+                    'episode_num' =>   $bean->episode_num,
+                    'note'        =>   $arr_note[$row]['note']); 
+                     array_push($episode_arr,  $episode_item);
+                } 
+            }
+        $str_ = json_encode($episode_arr, JSON_FORCE_OBJECT);
+        $ans = $this->jsonEncodeCyr($str_);
+        if ($arr_note  && $bean)
+            $this->ans_ex=true;
+        else
+            $this->ans_ex=false;
+        return $ans;
+    }
+    function getUserSerialList(){
+        $arr_note = UserSerials::readAll($this->id);
+        $serial_arr = array();
+        for ($row = 0; $row <count($arr_note); $row++) 
+            {
+                $bean = R::findOne('serial', 'id = ?', [$arr_note[$row]['serial_id']]);
+                if ($bean->id != 0){
+                $serial_item = array(
+                'id'          =>   $bean->id,
+                'name'        =>  "$bean->name",
+                'rating'        =>  $bean->rating,
+                'genre'        =>  "$bean->genre",
+                'year'        =>  "$bean->year",
+               	);
+                 array_push($serial_arr,  $serial_item);
+                 }
+            }
+        $str_ = json_encode($serial_arr,JSON_FORCE_OBJECT);
+        $ans = $this->jsonEncodeCyr($str_);
+        if ($arr_note  && $bean)
+            $this->ans_ex=true;
+        else
+            $this->ans_ex=false;
+        return $ans;
+    }
+    function getNote(){
+        $arr_note = UserEpisode::readAll($this->id);
+        $episode_arr = array();
+        for ($row = 0; $row <count($arr_note); $row++) 
+            {
+                $bean = R::findOne('episode', 'id = ?', [$arr_note[$row]['episode_id']]);
+                $bean_2 = R::findOne('serial', 'id = ?', [$bean->serial_id]);
+                $episode_item = array(
+                'id'          =>  $arr_note[$row]['id'],
+                'name'        =>  "$bean->name",
+                'date'        =>  "$bean->date",
+                'serial_name'   => $bean_2->name,
+                'season_num'  =>   $bean->season_num,
+                'episode_num' =>   $bean->episode_num,
+                'note'        =>   $arr_note[$row]['note']
+             );
+                 array_push($episode_arr,  $episode_item);
+            }
+        $str_ = json_encode($episode_arr,JSON_FORCE_OBJECT);
+        $ans = $this->jsonEncodeCyr($str_);
+        if ($arr_note  && $bean && $bean_2)
+            $this->ans_ex=true;
+        else
+            $this->ans_ex=false;
+        return $ans;
+    }
+    function getNotNote(){
+        $arr_note = UserEpisode::readAll($this->id);
+        $episode_arr = array();
+        for ($row = 0; $row <count($arr_note); $row++) 
+            {
+                if ($arr_note[$row]['note']==0){
+                    $bean = R::findOne('episode', 'id = ?', [$arr_note[$row]['episode_id']]);
+                    $bean_2 = R::findOne('serial', 'id = ?', [$bean->serial_id]);
+                    $episode_item = array(
+                    'id'          =>   $arr_note[$row]['id'],
+                    'name'        =>  "$bean->name",
+                    'date'        =>  "$bean->date",
+                    'serial_name' =>   $bean_2->name ,
+                    'season_num'  =>   $bean->season_num,
+                    'episode_num' =>   $bean->episode_num,
+                    'note'        =>   $arr_note[$row]['note']); 
+                    
+                    array_push($episode_arr,  $episode_item);
+                }   
+            }
+        $str_ = json_encode($episode_arr);
+        $ans = $this->jsonEncodeCyr($str_);
+         if ($arr_note  && $bean && $bean_2)
+            $this->ans_ex=true;
+        else
+            $this->ans_ex=false;
+        return $ans;
+    }
+    function Count($s_i){
+        $arr_note = UserEpisode::readAll($this->id);
+        $c = 0;
+        for ($row = 0; $row <count($arr_note); $row++) 
+            {
+                if ($arr_note[$row]['note'] == 0 && Episode::readSerialId($arr_note[$row]['episode_id']) == $s_i){
+                    $c++;
+                }
+        }
+        return $c;
+    }
+    function updateNoteSerial($arr_note){
+        $ok = true;
+        for ($row = 0; $row <count($arr_note); $row++) 
+            {
+                $book = R::load('userepisode', $arr_note[$row]['name']);
+                if($book->id === 0)
+                    return false;
+                $book->note = $arr_note[$row]['value'];
+                R::store($book);
+            }
+        return $ok;
+    }
+    function getRatingSerial($id){
+        $arr_note = UserSerials::read($this->id, $id);
+        $bean = R::findOne('serial', 'id = ?', [$id]);
+        if ($arr_note!=NULL){
+        $serial_item = array(
+                'id'          =>   $arr_note['id'],
+                'serial_id'   =>   $bean->id,
+                'name'        =>  "$bean->name",
+                'year'        =>   $bean->year,
+                'description' =>  "$bean->description",
+                'fun_facts'   =>  "$bean->fun_facts",
+                'country'     =>  "$bean->country",
+                'photo'       =>  "$bean->photo",
+                'genre'       =>  "$bean->genre",
+                'rating'      =>  "$bean->rating",
+                'ratingU'    =>    $arr_note['ratingU']
+             );
+        }
+        else {
+             $serial_item = array(
+                
+                'serial_id'   =>   $bean->id,
+                'name'        =>  "$bean->name",
+                'year'        =>   $bean->year,
+                'description' =>  "$bean->description",
+                'fun_facts'   =>  "$bean->fun_facts",
+                'country'     =>  "$bean->country",
+                'photo'       =>  "$bean->photo",
+                'genre'       =>  "$bean->genre",
+                'rating'      =>  "$bean->rating",
+                
+             );
+        }
+        $str_ = json_encode($serial_item);
+        $ans = $this->jsonEncodeCyr($str_);
+        if ($bean)
+            $this->ans_ex=true;
+        else
+            $this->ans_ex=false;
+        return $ans;
+    }
+    function UpdateRatingSerial($arr_note){
+        $ok = true;
+        $book = R::load('userserials', $arr_note['id']);
+        if($book->id == 0 || $book->serial_id != $arr_note['serial_id']){
+            return false;
+        }
+        $book->rating_user_id = $arr_note['ratingU'];
+        R::store($book);
+        $ans = $this->UpdateGeneralRatingSerial($arr_note);
+        return $ans;
+    }
+    private function UpdateGeneralRatingSerial($arr_note){
+        $books = R::findAll("userserials", "serial_id = ?", [$arr_note['serial_id']]);
+        $count_u = 0;
+        $sum_mark = 0; 
+        foreach ($books as $bean) {
+            $sum_mark+=$bean->rating_user_id;
+            $count_u++;
+        }
+        if ($count_u == 0)
+             return false;
+        else{
+        $new_mark =  intval($sum_mark/$count_u);
+        $book = R::load('serial', $arr_note['serial_id']);
+        $book->rating =  $new_mark;
+        R::store($book);
+        return true;
+        }
+        
+    }
    
 }
 ?>

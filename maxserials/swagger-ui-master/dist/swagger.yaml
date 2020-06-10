@@ -97,11 +97,11 @@ paths:
         404:
           description: "No serials found."
     
-  /serial/sortByName:
+  /serial/topSerials:
     get:
       tags: 
         - "Serial"
-      summary: "Сортировка по имени"
+      summary: "3 сериала с самым высоким рейтингом"
       consumes:
       - "application/json"
       produces:
@@ -113,30 +113,11 @@ paths:
             type: "object"
             properties:
               data:
-                $ref: "#/definitions/SortByName"
+                $ref: "#/definitions/topSerials"
         404:
           description: "No serials found."
   
-  /serial/SortByRating:
-    get:
-      tags: 
-        - "Serial"
-      summary: "Сортировка по рейтингу"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-     
-      responses:
-        200:
-          description: "Serial is found."
-          schema:
-            type: "object"
-            properties:
-              data:
-                $ref: "#/definitions/SortByRating"
-        404:
-          description: "No serials found."
+  
   
   /serial/delete:
     delete:
@@ -381,72 +362,99 @@ definitions:
           rating:
             type: "integer"
             example: "0"
-  SortByRating:
+  topSerials:
     type: "object"
     properties:
-      data:
-        type: "object"
-        properties:
-          id:
-            type: "integer"
-            example: "1"
-          name:
-            type: "string"
-            example: "Шерлок"
-          year:
-            type: "string"
-            example: "2010"
-          description:
-            type: "string"
-            example: "События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разрешить проблемы и найти ответы на сложные вопросы."
-          fun_facts:
-            type: "string"
-            example: "Когда Джон и Мэри спорят на Бейкер-стрит, 221Б, Шерлок играет на скрипке, которую он написал и исполнил для своей свадьбы, как это видно в серии 3, эпизод 2: «Знак трех»."
-          country:
-            type: "string"
-            example: "Великобритания"
-          photo:
-            type: "string"
-            example: "sherlock.jpg"
-          genre:
-            type: "string"
-            example: "детектив"
-          rating:
-            type: "integer"
-            example: "0"
-  SortByName:
-    type: "object"
-    properties:
-      data:
-        type: "object"
-        properties:
-          id:
-            type: "integer"
-            example: "1"
-          name:
-            type: "string"
-            example: "Шерлок"
-          year:
-            type: "string"
-            example: "2010"
-          description:
-            type: "string"
-            example: "События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разрешить проблемы и найти ответы на сложные вопросы."
-          fun_facts:
-            type: "string"
-            example: "Когда Джон и Мэри спорят на Бейкер-стрит, 221Б, Шерлок играет на скрипке, которую он написал и исполнил для своей свадьбы, как это видно в серии 3, эпизод 2: «Знак трех»."
-          country:
-            type: "string"
-            example: "Великобритания"
-          photo:
-            type: "string"
-            example: "sherlock.jpg"
-          genre:
-            type: "string"
-            example: "детектив"
-          rating:
-            type: "integer"
-            example: "0"
+        0:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              example: "1"
+            name:
+              type: "string"
+              example: "Шерлок"
+            year:
+              type: "string"
+              example: "2010"
+            description:
+              type: "string"
+              example: "События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разрешить проблемы и найти ответы на сложные вопросы."
+            fun_facts:
+              type: "string"
+              example: "Когда Джон и Мэри спорят на Бейкер-стрит, 221Б, Шерлок играет на скрипке, которую он написал и исполнил для своей свадьбы, как это видно в серии 3, эпизод 2: «Знак трех»."
+            country:
+              type: "string"
+              example: "Великобритания"
+            photo:
+              type: "string"
+              example: "sherlock.jpg"
+            genre:
+              type: "string"
+              example: "детектив"
+            rating:
+              type: "integer"
+              example: "9"
+        1:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              example: "2"
+            name:
+              type: "string"
+              example: "Игра престолов"
+            year:
+              type: "string"
+              example: "2011"
+            description:
+              type: "string"
+              example: "К концу подходит время благоденствия, и лето, длившееся почти десятилетие, угасает. Вокруг средоточия власти Семи королевств, Железного трона, зреет заговор, и в это непростое время король решает искать поддержки у друга юности Эддарда Старка. В мире, где все — от короля до наемника — рвутся к власти, плетут интриги и готовы вонзить нож в спину, есть место и благородству, состраданию и любви. Между тем, никто не замечает пробуждение тьмы из легенд далеко на Севере — и лишь Стена защищает живых к югу от нее."
+            fun_facts:
+              type: "string"
+              example: "В 2012 году более 160 новорожденных девочек в США были юридически названы «Халиси», в честь персонажа в шоу, хотя это не имя персонажа (Daenerys), а его название."
+            country:
+              type: "string"
+              example: "США"
+            photo:
+              type: "string"
+              example: "gameofthrones.jpg"
+            genre:
+              type: "string"
+              example: "фэнтези"
+            rating:
+              type: "integer"
+              example: "8"
+        2:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              example: "3"
+            name:
+              type: "string"
+              example: "Сверхъестественное"
+            year:
+              type: "string"
+              example: "2005"
+            description:
+              type: "string"
+              example: "Сериал рассказывает о приключениях братьев Сэма и Дина Винчестеров, которые путешествуют по Соединённым Штатам на чёрном автомобиле Chevrolet Impala 1967 года, расследуют паранормальные явления, многие из которых основаны на американских городских легендах и фольклоре, и сражаются с порождениями зла, такими как демоны и призраки."
+            fun_facts:
+              type: "string"
+              example: "Джеффри Дин Морган (Джон Винчестер) всего на двенадцать лет старше своего старшего сына на экране, Дженсена Эклза (Дин Винчестер)."
+            country:
+              type: "string"
+              example: "США"
+            photo:
+              type: "string"
+              example: "supernatural.jpg"
+            genre:
+              type: "string"
+              example: "фэнтези"
+            rating:
+              type: "integer"
+              example: "7"
   CreateEpisode:
     type: "object"
     properties:

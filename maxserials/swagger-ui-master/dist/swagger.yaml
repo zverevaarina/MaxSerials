@@ -1,0 +1,557 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: 'МаксимальноСериально'
+  description: 'Сайт для отметок просмотренных серий'
+tags:
+- name: "User"
+- name: "Serial"
+- name: "Episode"
+paths:
+  /user/create_user:
+    post:
+      tags: 
+        - "User"
+      summary: "Регистрирует нового пользователя"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/SingUpForm"
+      responses:
+        200:
+          description: "User was created."
+        400:
+          description: "Unable to create user.Empty of data."
+  /login:
+    post:
+      tags: 
+          - "User"
+      summary: "Авторизует пользователя"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/SingInForm"
+      responses:
+        200:
+          description: "Successful login user."
+          schema:
+            properties:
+              data:
+                $ref: "#/definitions/AnswerSingInForm"
+        401:
+          description: "Login failed."
+  /user/read:
+    post:
+      tags: 
+        - "User"
+      summary: "Возвращает текущего авторизованного пользователя"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RequestAnswerReadUser"
+      responses:
+        200:
+          description: "Access granted."
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/AnswerReadUser"
+        401:
+          description: "Access denied."
+  
+  
+  /serial/read:
+    get:
+      tags: 
+        - "Serial"
+      summary: "Возвращает все сериалы, что есть на сайте"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Список всех сериалов"
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/AnswerReadSerial"
+        404:
+          description: "No serials found."
+    
+  /serial/sortByName:
+    get:
+      tags: 
+        - "Serial"
+      summary: "Сортировка по имени"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Serial is found."
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/SortByName"
+        404:
+          description: "No serials found."
+  
+  /serial/SortByRating:
+    get:
+      tags: 
+        - "Serial"
+      summary: "Сортировка по рейтингу"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+     
+      responses:
+        200:
+          description: "Serial is found."
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/SortByRating"
+        404:
+          description: "No serials found."
+  
+  /serial/delete:
+    delete:
+      tags: 
+        - "Serial"
+      summary: "Удаление сериала"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/serialDelete"
+      responses:
+        200:
+          description: "Serial was deleted."
+        503:
+          description: "Unable to delete serial."
+  
+  /episode/create:
+    post:
+      tags: 
+        - "Episode"
+      summary: "Создает эпизод"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateEpisode"
+      responses:
+        201:
+          description: "Episode was added."
+        400:
+          description: "Unable to add episode. Data is incomplete."
+  
+  /episode/delete:
+    delete:
+      tags: 
+        - "Episode"
+      summary: "Удаление эпизода"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/episodeDelete"
+      responses:
+        200:
+          description: "Episode was deleted."
+        503:
+          description: "Unable to delete episode."
+          
+  /episode/read:
+    post:
+      tags: 
+        - "Episode"
+      summary: "Возвращает все серии к сериалу"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/episodeRead"
+      responses:
+        200:
+          description: "Episode is found."
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/episodeReadR"
+        404:
+          description: "No episode found."
+     
+  /episode/update:
+    put:
+      tags: 
+        - "Episode"
+      summary: "Обновляет серию"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateEpisode"
+          
+      responses:
+        200:
+          description: "Episode was updated."
+        400:
+          description: "No episode found."    
+ 
+  
+  
+  
+definitions:
+  SingUpForm:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "user@gmail.com"
+      name:
+        type: "string"
+        example: "User"
+      password:
+        type: "string"
+        example: "qwerty12345"
+  SingInForm:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "user@gmail.com"
+      password:
+        type: "string"
+        example: "qwerty12345"
+  AnswerSingInForm:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+        example: "Successful login user."
+      jwt:
+        type: "string"
+        example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxMzU2OTk5NTI0LCJuYmYiOjEzNTcwMDAwMDAsImRhdGEiOnsiaWQiOiIxIiwibmFtZSI6InUxIiwiZW1haWwiOiJ1MUBnbWFpbC5jb20iLCJwaG90byI6ImJhc2UucG5nIiwiZmFjdHMiOiJcdTA0MWJcdTA0NGVcdTA0MzFcdTA0M2JcdTA0NGUgXHUwNDQ0XHUwNDRkXHUwNDNkXHUwNDQyXHUwNDM1XHUwNDM3XHUwNDM4IFx1MDQzOCBcdTA0M2FcdTA0M2VcdTA0M2NcdTA0MzVcdTA0MzRcdTA0MzhcdTA0MzguLi4ifX0.on7Fm9HsCYC6gCGkjeZc1scHLNBr2rcbnmDsibNIvOM"
+      data:
+        type: "object"
+        properties:
+          iss:
+            type: "string"
+            example: "http://example.org"
+          aud:
+            type: "string"
+            example: "http://example.org"
+          iat:
+            type: "string"
+            example: "1356999524"
+          nbf:
+            type: "string"
+            example: "1357000000"
+          data:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                example: "1"
+              name:
+                type: "string"
+                example: "User"
+              email:
+                type: "string"
+                example: "user@gmail.com"
+              photo:
+                type: "string"
+                example: "base.png"
+              facts:
+                type: "string"
+                example: "Расскажи что-нибудь о себе..."
+  
+  RequestAnswerReadUser:
+    type: "object"
+    properties:
+      jwt:
+        type: "string"
+        example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxMzU2OTk5NTI0LCJuYmYiOjEzNTcwMDAwMDAsImRhdGEiOnsiaWQiOiIxIiwibmFtZSI6InUxIiwiZW1haWwiOiJ1MUBnbWFpbC5jb20iLCJwaG90byI6ImJhc2UucG5nIiwiZmFjdHMiOiJcdTA0MWJcdTA0NGVcdTA0MzFcdTA0M2JcdTA0NGUgXHUwNDQ0XHUwNDRkXHUwNDNkXHUwNDQyXHUwNDM1XHUwNDM3XHUwNDM4IFx1MDQzOCBcdTA0M2FcdTA0M2VcdTA0M2NcdTA0MzVcdTA0MzRcdTA0MzhcdTA0MzguLi4ifX0.on7Fm9HsCYC6gCGkjeZc1scHLNBr2rcbnmDsibNIvOM"
+  AnswerReadUser:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+        example: "Access granted"
+      data:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              example: "1"
+            name:
+              type: "string"
+              example: "User"
+            email:
+              type: "string"
+              example: "user@gmail.com"
+            photo:
+              type: "string"
+              example: "base.png"
+            facts:
+              type: "string"
+              example: "Расскажи что-нибудь о себе..."
+              
+  AnswerReadSerial:
+    type: "object"
+    properties:
+      data:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            example: "1"
+          name:
+            type: "string"
+            example: "Шерлок"
+          year:
+            type: "string"
+            example: "2010"
+          description:
+            type: "string"
+            example: "События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разрешить проблемы и найти ответы на сложные вопросы."
+          fun_facts:
+            type: "string"
+            example: "Когда Джон и Мэри спорят на Бейкер-стрит, 221Б, Шерлок играет на скрипке, которую он написал и исполнил для своей свадьбы, как это видно в серии 3, эпизод 2: «Знак трех»."
+          country:
+            type: "string"
+            example: "Великобритания"
+          photo:
+            type: "string"
+            example: "sherlock.jpg"
+          genre:
+            type: "string"
+            example: "детектив"
+          rating:
+            type: "integer"
+            example: "0"
+  SortByRating:
+    type: "object"
+    properties:
+      data:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            example: "1"
+          name:
+            type: "string"
+            example: "Шерлок"
+          year:
+            type: "string"
+            example: "2010"
+          description:
+            type: "string"
+            example: "События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разрешить проблемы и найти ответы на сложные вопросы."
+          fun_facts:
+            type: "string"
+            example: "Когда Джон и Мэри спорят на Бейкер-стрит, 221Б, Шерлок играет на скрипке, которую он написал и исполнил для своей свадьбы, как это видно в серии 3, эпизод 2: «Знак трех»."
+          country:
+            type: "string"
+            example: "Великобритания"
+          photo:
+            type: "string"
+            example: "sherlock.jpg"
+          genre:
+            type: "string"
+            example: "детектив"
+          rating:
+            type: "integer"
+            example: "0"
+  SortByName:
+    type: "object"
+    properties:
+      data:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            example: "1"
+          name:
+            type: "string"
+            example: "Шерлок"
+          year:
+            type: "string"
+            example: "2010"
+          description:
+            type: "string"
+            example: "События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разрешить проблемы и найти ответы на сложные вопросы."
+          fun_facts:
+            type: "string"
+            example: "Когда Джон и Мэри спорят на Бейкер-стрит, 221Б, Шерлок играет на скрипке, которую он написал и исполнил для своей свадьбы, как это видно в серии 3, эпизод 2: «Знак трех»."
+          country:
+            type: "string"
+            example: "Великобритания"
+          photo:
+            type: "string"
+            example: "sherlock.jpg"
+          genre:
+            type: "string"
+            example: "детектив"
+          rating:
+            type: "integer"
+            example: "0"
+  CreateEpisode:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Начало"
+      date:
+        type: "string"
+        example: "2020-01-01"
+      serial_id:
+        type: "integer"
+        example: "1"
+      season_num:
+        type: "integer"
+        example: "1"
+      episode_num:
+        type: "integer"
+        example: "1"
+  UpdateEpisode:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: "1"
+      name:
+        type: "string"
+        example: "Начало и конец"
+      date:
+        type: "string"
+        example: "2020-01-01"
+      serial_id:
+        type: "integer"
+        example: "1"
+      season_num:
+        type: "integer"
+        example: "1"
+      episode_num:
+        type: "integer"
+        example: "1"
+  serialDelete:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "1" 
+  episodeDelete:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "1"    
+  episodeRead:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "1"
+  episodeReadR:
+    type: "object"
+    properties:
+      0:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            example: "1"
+          name:
+            type: "string"
+            example: "Начало и конец"
+          serial_id:
+            type: "integer"
+            example: "1"
+          season_num:
+            type: "integer"
+            example: "1"
+          episode_num:
+            type: "integer"
+            example: "1"     
+          date:
+            type: "string"
+            example: "2020-01-01"    
+      1:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            example: "2"
+          name:
+            type: "string"
+            example: "Тень"
+          serial_id:
+            type: "integer"
+            example: "1"
+          season_num:
+            type: "integer"
+            example: "1"
+          episode_num:
+            type: "integer"
+            example: "2"     
+          date:
+            type: "string"
+            example: "2020-01-12"  
+        
+        
+schemes:
+ - http
+# Added by API Auto Mocking Plugin
+basePath: "/api/"

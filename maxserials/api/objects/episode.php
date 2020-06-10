@@ -83,6 +83,28 @@ class Episode{
         
         return $episode_arr;    
     }
+    public function readP($id){
+        $books = R::findAll('episode', 'serial_id = ?', [$id]);
+        if ($books)
+            $this->ans_ex = true;
+        else
+            $this->ans_ex = false;
+        $episode_arr = array();
+        foreach ($books as $bean) {
+             $episode_item = array(
+             'id'          =>   $bean->id,
+            'name'        =>   "$bean->name",
+            'serial_id'   =>   $bean->serial_id,
+            'season_num'  =>   $bean->season_num,
+            'episode_num' =>   $bean->episode_num,
+            'date'        =>   "$bean->date"
+        );
+            array_push($episode_arr,  $episode_item);
+        }
+        $str_ = json_encode($episode_arr);
+        $ans = $this->jsonEncodeCyr($str_);
+        return $ans;     
+    }
     public function Count($id){
         $c = R::Count('episode', 'serial_id = ?', [$id]);
         if (!$c)

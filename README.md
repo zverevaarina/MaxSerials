@@ -13,4 +13,6 @@
 • [Курсовой проект pdf](https://github.com/zverevaarina/MaxSerials/blob/maste...) <br>
 • [Демо-идео](https://github.com/zverevaarina/MaxSerials/blob/master/documents/Демо-видео.mp4) <br>
 • [Swagger](https://app.swaggerhub.com/apis/gdsf34t3tv43v34vt4/maxserials/1.0.0) <br>
+• [Видео-презентация](https://youtu.be/sRPEHdSG7io) <br>
+• [Презентация](https://github.com/zverevaarina/MaxSerials/blob/master/documents/Разработка%20системы%20просмотра%20сериалов.pptx) <br>
 • [Отчет на 27.04](https://github.com/zverevaarina/MaxSerials/blob/master/documents/Отчет%202704.docx) <br>
